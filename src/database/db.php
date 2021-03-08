@@ -5,7 +5,7 @@ class conn{
     private $password = 'BacamINeDam';
     private $dbname = 'user_db';
     /* 
-     * @param PDO $dbconn
+     * creating object for managing the database connections
      */
     private $dbconn;
     public function __construct(){
@@ -21,5 +21,19 @@ class conn{
         return $this->dbconn;
     }
 }
+/* A class handling queries for database*/   
+class dbQueries{
+    /* @var $dbconn PDO*/
+    private $dbconn;
     
-    ?>
+    public function __construct() {
+        $this->dbconn = (new conn())->getConn();
+    }
+    
+    public function getUserByUsername($username){
+        $query = $this->dbconn->prepare("select * from users where username = :username");
+        $query->bindParam(':username', $username);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+}
