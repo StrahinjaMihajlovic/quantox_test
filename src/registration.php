@@ -18,7 +18,10 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true):?>
                 echo 'please, fill all inputs';
             }elseif($password !== $passwordRet){
                 echo 'password and repeated password do not match, please reenter your password';
-            }else{
+            }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                echo 'invalid email';
+            }
+            else{
                 $newUser = $dbquery->registerNewUser($username, $email, $password);
                 echo 'you have successfuly registered, to log in, please go <a href="login.php">here</a>';
                 
