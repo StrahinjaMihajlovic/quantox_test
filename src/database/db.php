@@ -43,4 +43,14 @@ class dbQueries{
         $query->execute();
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function registerNewUser($username, $email, $password){
+        $query = $this->dbconn->prepare("insert into users (username, email, pass_hash) values (:username, :email, :password)");
+        $query->bindParam(":username", $username);
+        $query->bindParam(":email", $email);
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        $query->bindParam(":password", $passwordHash);
+        
+        return $query->execute();
+    }
 }
