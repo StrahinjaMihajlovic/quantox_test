@@ -1,6 +1,7 @@
 <?php
 require_once 'database/db.php';
 session_start();
+
 if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
     echo 'you already loged in, log <a href="/src/logout.php">out</a>';
 }elseif($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -14,6 +15,8 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
         $_SESSION['username'] = $user['username'];
         $_SESSION['loggedin'] = true;
         header("Location: http://".$_SERVER['SERVER_NAME']);
+    }else{
+        echo "Error logging you in, try again";
     }
 }
 ?>
