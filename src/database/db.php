@@ -36,4 +36,11 @@ class dbQueries{
         $query->execute();
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function getUserByEmail($email){
+        $query = $this->dbconn->prepare("select * from users where email = :email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
 }
