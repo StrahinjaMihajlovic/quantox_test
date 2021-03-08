@@ -1,5 +1,5 @@
 <?php
-include_once 'database/db.php';
+include_once 'user.php';
 session_start();
 
 if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true):?>
@@ -8,30 +8,12 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true):?>
 
 <?php 
     if(filter_input(INPUT_SERVER,'REQUEST_METHOD') == "POST"){
-        $dbquery = new dbQueries();
-        $username = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $password = filter_input(INPUT_POST, 'password');
-        $passwordRet = filter_input(INPUT_POST, 'repeat');
-        try{
-            if((empty($username) || empty($password) || empty($email))){
-                echo 'please, fill all inputs';
-            }elseif($password !== $passwordRet){
-                echo 'password and repeated password do not match, please reenter your password';
-            }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-                echo 'invalid email';
-            }
-            else{
-                $newUser = $dbquery->registerNewUser($username, $email, $password);
-                echo 'you have successfuly registered, to log in, please go <a href="login.php">here</a>';
-                
-            }
-        } catch (PDOException $e){
-             switch($e->getCode()){
-                 case 23000:
-                     echo 'User with this email already exists, please try a different one or login with existing one';
-             }
+        
+        $user = new User($_POST['name'], $_POST['email'], $_POST['password'], $_POST['repeat']);
+        if($user->registerUser()){
+            echo 'you have succesfully registered, please <a href="login.php">login</a> now';
         }
+        
     }
 ?>
 
