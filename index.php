@@ -10,8 +10,10 @@ session_start();
 <p><?php if((isset($_SESSION['loggedin'] ) && $_SESSION['loggedin'] 
         === true) && isset($_SESSION['username'])):?>
     <a href="src/logout.php?">logout</a>
+    <a href='src/search.php'>search</a>
     <?php else:?>
     <a href="src/login.php">login</a>
     <a href='src/registration.php'>Register</a>
+    <a href='src/search.php'>search</a>
 </p>
 <?php endif;
