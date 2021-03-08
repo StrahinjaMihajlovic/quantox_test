@@ -2,8 +2,7 @@
 require_once 'database/db.php';
 session_start();
 if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
-    echo 'you already loged in';
-    session_destroy();
+    echo 'you already loged in, log <a href="/src/logout.php">out</a>';
 }elseif($_SERVER['REQUEST_METHOD'] == "POST") {
     $dbquery = new dbQueries();
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
