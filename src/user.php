@@ -19,6 +19,7 @@ class User{
             
         }elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
             return 'this is not a valid email, try again';
+            
         }elseif($this->password !== $this->repPass){
             return 'password and repeated password does not match, try again';
         }
@@ -32,7 +33,11 @@ class User{
             try{
             $this->dbQuery->registerNewUser($this->name, $this->email, $this->password);
             } catch (PDOException $e){
-                echo $e->getMessage();
+                $reg = preg_match('*(email)*',$e->getMessage());
+                echo preg_match('*(email)*',$e->getMessage()) == 1 ?
+                'this user already exists, try using different email' :
+                        'internal database error';
+                return false;
             }
             return true;
         }else{
