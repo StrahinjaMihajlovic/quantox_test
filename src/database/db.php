@@ -53,4 +53,12 @@ class dbQueries{
         
         return $query->execute();
     }
+    
+    public function searchUsers($string){
+        $query = $this->dbconn->prepare("select username, email from users where username like '%$string%' or email like '%$string%'");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
 }
