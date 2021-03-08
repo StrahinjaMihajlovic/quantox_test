@@ -12,5 +12,6 @@ session_start();
     <a href="src/logout.php?">logout</a>
     <?php else:?>
     <a href="src/login.php">login</a>
+    <a href='src/registration.php'>Register</a>
 </p>
 <?php endif;
