@@ -1,4 +1,6 @@
 <?php
+namespace quantox\database;
+
 class conn{
     private $host = 'localhost';
     private $username = 'root';

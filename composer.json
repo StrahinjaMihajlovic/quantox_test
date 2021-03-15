@@ -1,0 +1,15 @@
+{
+        "name": "strahinja/quantox",
+        "authors": [
+        {
+            "name": "Strahinja Mihajlovic",
+            "email": "strahinja_mihajlovic@outlook.com"
+        }
+    ],
+	"require": {
+		"php":"7.3.*"
+	},
+	"autoload": {
+        	"psr-4": {"quantox\\": "src/"}
+    	}
+}

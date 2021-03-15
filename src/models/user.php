@@ -1,19 +1,24 @@
-<?php
-include_once 'database/db.php';
+7<?php
+namespace quantox\models;
+use quantox\interfaces\AbsUser;
 // class with responsibility of managing users entries.
-class User{
-    private $password, $repPass, $dbQuery;
+class User extends AbsUser{
+    protected $password_hash;
     public $name, $email;
     //populating the class params
-    public function __construct($name, $email, $password, $repPass) {
+    public function __construct($name, $email, $password) {
+        parent::__construct();
         $this->name = filter_var($name,FILTER_SANITIZE_STRING);
         $this->email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        $this->password = $password;
-        $this->repPass = $repPass;
-        $this->dbQuery = new dbQueries();
+        $this->password_hash = $password;
+        
     }
+    public function getValues() {
+        return new \ArrayObject($this, \ArrayObject::ARRAY_AS_PROPS);
+    }
+    
     //function responsible for validating data
-    private function validateUser(){
+    protected function validateUser(){
         if((empty($this->name) || empty($this->password) || empty($this->email))){
             return 'please, fill in all inputs';
             
@@ -31,7 +36,7 @@ class User{
     public function registerUser(){
         if($this->validateUser() === true){
             try{
-            $this->dbQuery->registerNewUser($this->name, $this->email, $this->password);
+            $this->registerNewUser($this->name, $this->email, $this->password);
             } catch (PDOException $e){
                 $reg = preg_match('*(email)*',$e->getMessage());
                 echo preg_match('*(email)*',$e->getMessage()) == 1 ?
@@ -43,5 +48,15 @@ class User{
         }else{
             echo $this->validateUser();
         }
+    }
+    
+    protected function registerNewUser($username, $email, $password){
+        $query = $this->dbconn->prepare("insert into users (username, email, pass_hash) values (:username, :email, :password)");
+        $query->bindParam(":username", $username);
+        $query->bindParam(":email", $email);
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        $query->bindParam(":password", $passwordHash);
+        
+        return $query->execute();
     }
 }

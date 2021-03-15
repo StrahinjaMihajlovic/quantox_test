@@ -6,6 +6,6 @@ namespace quantox\interfaces;
  * and open the template in the editor.
  */
 
-interface View{
+interface view{
     public function render($array);
 }

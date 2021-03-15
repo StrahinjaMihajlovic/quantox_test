@@ -1,19 +1,5 @@
 <?php
-include_once 'src/database/db.php';
-session_start();
-?>
-<h1>Hello and welcome, <?php echo ((isset($_SESSION['loggedin'] ) && $_SESSION['loggedin'] 
-        === true) && isset($_SESSION['username']) )
-        ? htmlspecialchars($_SESSION['username']) 
-                : 'guest' ?>
-    , to this test project, please select something to do from button below:</h1>
-<p><?php if((isset($_SESSION['loggedin'] ) && $_SESSION['loggedin'] 
-        === true) && isset($_SESSION['username'])):?>
-    <a href="src/logout.php?">logout</a>
-    <a href='src/search.php'>search</a>
-    <?php else:?>
-    <a href="src/login.php">login</a>
-    <a href='src/registration.php'>Register</a>
-    <a href='src/search.php'>search</a>
-</p>
-<?php endif;
+require __DIR__ . '/vendor/autoload.php';
+/* @var quantox\controllers\indexController*/
+$controller = new quantox\controllers\indexController();
+echo $controller->index();
