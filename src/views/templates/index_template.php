@@ -12,10 +12,10 @@ namespace quantox\templates;
 <p><?php if((isset($_SESSION['loggedin'] ) && $_SESSION['loggedin'] 
         === true) && isset($_SESSION['username'])):?>
     <a href="?controller=login&method=logout">logout</a>
-    <a href='src/search.php'>search</a>
+    <a href='?controller=search'>search</a>
     <?php else:?>
     <a href="?controller=login">login</a>
     <a href='?controller=login&method=registration'>Register</a>
-    <a href='src/search.php'>search</a>
+    <a href='?controller=search'>search</a>
 </p>
 <?php endif;
