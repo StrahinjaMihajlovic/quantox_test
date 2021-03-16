@@ -1,7 +1,7 @@
 <?php
 namespace quantox\interfaces;
 
-use quantox\interfaces\Model;
+use quantox\interfaces\model;
 use quantox\database\conn;
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -9,7 +9,7 @@ use quantox\database\conn;
  * and open the template in the editor.
  */
 
-abstract class AbsUser implements Model{
+abstract class absUser implements model{
     protected  $dbconn;
     
     public function __construct() {

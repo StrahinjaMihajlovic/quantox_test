@@ -1,13 +1,14 @@
 <?php
 namespace quantox\models;
-use quantox\interfaces\AbsUser;
+use quantox\models\User;
+use PDO;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class userSearch extends \quantox\models\User{
+class userSearch extends \quantox\models\user{
     
     public function getUserByUsername($username){
         $query = $this->dbconn->prepare("select * from users where username = :username");
@@ -21,8 +22,15 @@ class userSearch extends \quantox\models\User{
         $query->bindParam(':email', $email);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
+        
+        if(empty($result) || !$result){
+            return false;
+        }
+        
         $this->email = $result['email'];
         $this->name = $result['username'];
+        $this->password_hash = $result['pass_hash'];
+        return true;
     }
     
      

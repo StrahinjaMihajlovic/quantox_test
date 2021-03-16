@@ -13,9 +13,9 @@ class conn{
     public function __construct(){
         try{
             //$this->dbconn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            $this->dbconn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
-            $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->dbconn->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 1);
+            $this->dbconn = new \PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+            $this->dbconn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->dbconn->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 1);
         } catch (PDOException $e){
             die('connection to database was unsuccessful with err ' . $e->getMessage());
         }

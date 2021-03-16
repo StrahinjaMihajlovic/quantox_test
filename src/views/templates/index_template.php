@@ -5,7 +5,6 @@ namespace quantox\templates;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once 'src/database/db.php';
 
 ?>
 <h1>Hello and welcome, <?php echo $logged ?>
@@ -15,7 +14,7 @@ include_once 'src/database/db.php';
     <a href="src/logout.php?">logout</a>
     <a href='src/search.php'>search</a>
     <?php else:?>
-    <a href="src/login.php">login</a>
+    <a href="?controller=login">login</a>
     <a href='src/registration.php'>Register</a>
     <a href='src/search.php'>search</a>
 </p>

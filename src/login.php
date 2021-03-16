@@ -27,6 +27,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
     <label for="email">email</label>
     <input type='text' name='email'>
     
-    <label for="username">password</label>
+    <label for="password">password</label>
     <input type='password' name='password'>
     <input type='submit' name='submit'>
+</form>

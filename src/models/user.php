@@ -1,12 +1,13 @@
-7<?php
+<?php
 namespace quantox\models;
-use quantox\interfaces\AbsUser;
+use quantox\interfaces\absUser;
 // class with responsibility of managing users entries.
-class User extends AbsUser{
+
+class user extends absUser{
     protected $password_hash;
     public $name, $email;
     //populating the class params
-    public function __construct($name, $email, $password) {
+    public function __construct($name = '', $email = '', $password = '') {
         parent::__construct();
         $this->name = filter_var($name,FILTER_SANITIZE_STRING);
         $this->email = filter_var($email, FILTER_SANITIZE_EMAIL);
@@ -15,6 +16,10 @@ class User extends AbsUser{
     }
     public function getValues() {
         return new \ArrayObject($this, \ArrayObject::ARRAY_AS_PROPS);
+    }
+    
+    public function isPasswordCorrect($input){
+        return password_verify($input, $this->password_hash);
     }
     
     //function responsible for validating data
