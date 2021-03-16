@@ -15,7 +15,7 @@ namespace quantox\templates;
     <a href='src/search.php'>search</a>
     <?php else:?>
     <a href="?controller=login">login</a>
-    <a href='src/registration.php'>Register</a>
+    <a href='?controller=login&method=registration'>Register</a>
     <a href='src/search.php'>search</a>
 </p>
 <?php endif;

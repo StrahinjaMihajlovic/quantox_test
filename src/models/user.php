@@ -4,15 +4,16 @@ use quantox\interfaces\absUser;
 // class with responsibility of managing users entries.
 
 class user extends absUser{
+    private $repPass;
     protected $password_hash;
     public $name, $email;
     //populating the class params
-    public function __construct($name = '', $email = '', $password = '') {
+    public function __construct($name = '', $email = '', $password = '', $repeat ='') {
         parent::__construct();
         $this->name = filter_var($name,FILTER_SANITIZE_STRING);
         $this->email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $this->password_hash = $password;
-        
+        $this->repPass = $repeat;
     }
     public function getValues() {
         return new \ArrayObject($this, \ArrayObject::ARRAY_AS_PROPS);
@@ -24,13 +25,13 @@ class user extends absUser{
     
     //function responsible for validating data
     protected function validateUser(){
-        if((empty($this->name) || empty($this->password) || empty($this->email))){
+        if((empty($this->name) || empty($this->password_hash) || empty($this->email))){
             return 'please, fill in all inputs';
             
         }elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
             return 'this is not a valid email, try again';
             
-        }elseif($this->password !== $this->repPass){
+        }elseif($this->password_hash !== $this->repPass){
             return 'password and repeated password does not match, try again';
         }
         else{
@@ -41,7 +42,7 @@ class user extends absUser{
     public function registerUser(){
         if($this->validateUser() === true){
             try{
-            $this->registerNewUser($this->name, $this->email, $this->password);
+            $this->registerNewUser($this->name, $this->email, $this->password_hash);
             } catch (PDOException $e){
                 $reg = preg_match('*(email)*',$e->getMessage());
                 echo preg_match('*(email)*',$e->getMessage()) == 1 ?

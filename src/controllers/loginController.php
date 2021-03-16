@@ -11,9 +11,12 @@ use quantox\views\loginView;
 
 class loginController extends controller{
     public function index() {
-        if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_SPECIAL_CHARS) == "logout"){
+        switch(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_SPECIAL_CHARS)){
+        case 'logout':   
             return $this->logout();
-        };
+        case 'registration':
+            return $this->registration();
+        }
         session_start();
         if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
             echo 'you already loged in, log <a href="?controller=login&method=logout">out</a>';
@@ -43,5 +46,25 @@ class loginController extends controller{
         session_unset();
         session_destroy();
         header("Location:http://".$_SERVER["SERVER_NAME"]);
+    }
+    
+    public function registration(){
+       $isLogged = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+        
+       if(filter_input(INPUT_SERVER,'REQUEST_METHOD') == "POST"){
+           $this->model= 
+              new \quantox\models\user(filter_input(INPUT_POST, 'name'
+                      , FILTER_SANITIZE_SPECIAL_CHARS)
+                      , filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)
+                      , filter_input(INPUT_POST, 'password')
+                      , filter_input(INPUT_POST, 'repeat'));
+            if($this->model->registerUser()){
+                 echo 'you have succesfully registered, please <a href="?controller=login">login</a> now';
+             }
+        
+        }
+        
+        $this->view = new \quantox\views\registrationView();
+        return $this->view->render(["isLogged" => $isLogged]);
     }
 }
