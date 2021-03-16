@@ -11,9 +11,12 @@ use quantox\views\loginView;
 
 class loginController extends controller{
     public function index() {
+        if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_SPECIAL_CHARS) == "logout"){
+            return $this->logout();
+        };
         session_start();
         if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
-            echo 'you already loged in, log <a href="/src/logout.php">out</a>';
+            echo 'you already loged in, log <a href="?controller=login&method=logout">out</a>';
         }
         elseif($_SERVER['REQUEST_METHOD'] == "POST") {
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -33,5 +36,12 @@ class loginController extends controller{
         
         $this->view = new loginView();
         return $this->view->render([]);
+    }
+    
+    public function logout(){
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location:http://".$_SERVER["SERVER_NAME"]);
     }
 }

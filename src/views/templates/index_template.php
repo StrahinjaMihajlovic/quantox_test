@@ -11,7 +11,7 @@ namespace quantox\templates;
     , to this test project, please select something to do from button below:</h1>
 <p><?php if((isset($_SESSION['loggedin'] ) && $_SESSION['loggedin'] 
         === true) && isset($_SESSION['username'])):?>
-    <a href="src/logout.php?">logout</a>
+    <a href="?controller=login&method=logout">logout</a>
     <a href='src/search.php'>search</a>
     <?php else:?>
     <a href="?controller=login">login</a>
